@@ -1,38 +1,62 @@
 #include <windows.h>
+#include "logic.h"
 
-#define InactivityTime 10000
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "shell32.lib")
 
-DWORD GetLastInputTime()
-{
-    LASTINPUTINFO lii;
-    lii.cbSize = sizeof(LASTINPUTINFO);
-    if (GetLastInputInfo(&lii))
-    {
-        return GetTickCount() - lii.dwTime;
+#define WM_TRAYICON (WM_USER + 1)
+#define ID_TRAY_EXIT 1001
+
+NOTIFYICONDATA nid = { 0 };
+bool keepRunning = true;
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    if (uMsg == WM_TRAYICON && LOWORD(lParam) == WM_RBUTTONUP) {
+        POINT pt;
+        GetCursorPos(&pt);
+        HMENU hMenu = CreatePopupMenu();
+        AppendMenu(hMenu, MF_STRING, ID_TRAY_EXIT, "Cerrar");
+        SetForegroundWindow(hWnd);
+        TrackPopupMenu(hMenu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hWnd, NULL);
+        DestroyMenu(hMenu);
     }
-    return 0;
+    if (uMsg == WM_COMMAND && LOWORD(wParam) == ID_TRAY_EXIT) {
+        keepRunning = false;
+        PostQuitMessage(0);
+    }
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-// Get Screen Resolution
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow) {
+    WNDCLASS wc = { 0 };
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = hInst;
+    wc.lpszClassName = "TrayClass";
+    RegisterClass(&wc);
+    HWND hWnd = CreateWindowEx(0, "TrayClass", NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, hInst, NULL);
 
-int width = GetSystemMetrics(SM_CXSCREEN) -1;
-int height = GetSystemMetrics(SM_CYSCREEN) -1;
+    nid.cbSize = sizeof(NOTIFYICONDATA);
+    nid.hWnd = hWnd;
+    nid.uID = 1;
+    nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+    nid.uCallbackMessage = WM_TRAYICON;
+    nid.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    lstrcpy(nid.szTip, "Mover Mouse Activo");
+    Shell_NotifyIcon(NIM_ADD, &nid);
 
-POINT corners[4] = {
-    {0, 0},
-    {width, 0},
-    {width, height},
-    {0, height}
-};
+    double currentAngle = 0.0;
+    MSG msg = { 0 };
 
-int cornerIndex = 0;
+    while (keepRunning) {
+        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
 
-while (true)
-{
-    if (GetLastInputTime() >= InactivityTime)
-    {
-        SetCursorPos(corners[cornerIndex].x, corners[cornerIndex].y);
-        cornerIndex = (cornerIndex + 1) % 4; // Move to the next corner
+        UpdateMouseLogic(currentAngle); // Llamada a la función del otro archivo
+        Sleep(20);
     }
-    Sleep(1000); // Check every second
+
+    Shell_NotifyIcon(NIM_DELETE, &nid);
+    return 0;
 }
