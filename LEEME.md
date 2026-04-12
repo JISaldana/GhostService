@@ -24,3 +24,5 @@ windres config/resource.rc -O coff -o config/resource.res
 ```bash
 g++ src/main.cpp src/logic.cpp config/resource.res -o GhostService.exe -mwindows -O2 -s
 ```
+## ⚖️ Licencia
+- Este proyecto es de código abierto y está disponible bajo la licencia **GNU General Public License v3.0**. Consulta el archivo `LICENSE` para más detalles.
