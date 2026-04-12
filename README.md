@@ -24,4 +24,4 @@ If you are using MinGW/g++ (MSYS2), you can compile the project by following the
    g++ src/main.cpp src/logic.cpp config/resource.res -o GhostService.exe -mwindows -O2 -s ``
 
 ## ⚖️ License
-- This project is open-source and available under the MIT License.
+- This project is open-source and available under the GNU General Public License v3.0. See the LICENSE file for more details.
