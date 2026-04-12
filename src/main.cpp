@@ -53,7 +53,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow) {
             DispatchMessage(&msg);
         }
 
-        UpdateMouseLogic(currentAngle); // Llamada a la función del otro archivo
+        UpdateMouseLogic(currentAngle); // Function Call
         Sleep(20);
     }
 
