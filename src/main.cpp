@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow) {
     nid.uID = 1;
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.uCallbackMessage = WM_TRAYICON;
-    nid.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    nid.hIcon = LoadIcon(hInst, "MAINICON");
     lstrcpy(nid.szTip, "Mover Mouse Activo");
     Shell_NotifyIcon(NIM_ADD, &nid);
 
