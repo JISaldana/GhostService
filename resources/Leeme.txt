@@ -1,0 +1,36 @@
+==========================================================
+             GHOSTSERVICE - MOUSE UTILITY
+==========================================================
+
+¿Qué es GhostService?
+---------------------
+Es una pequeña herramienta diseñada para evitar que tu computadora
+entre en modo de suspensión o que el estado de tus aplicaciones
+pase a "Inactivo" mientras estás presente.
+
+¿Cómo funciona?
+---------------
+1. Ejecuta "GhostService.exe".
+2. Aparecerá un icono de un fantasmita en la bandeja del sistema
+   (junto al reloj de Windows).
+3. El programa interactua con el sistema ocacionalmente para saber cuanto
+   tiempo estuvo inactivo
+3. Cuando el sistema detecte cierto periodo de inactividad 
+   El programa realizará movimientos circulares del cursor
+   para mantener el sistema activo.
+
+¿Cómo cerrarlo?
+---------------
+Haz clic derecho sobre el icono del fantasmita en la barra de tareas
+y selecciona "Cerrar".
+
+Seguridad:
+----------
+Por su seguridad este programa:
+   - NO registra pulsaciones de teclas.
+   - NO requiere permisos de administrador.
+   - NO se conecta a internet.
+   - Es una herramienta de código abierto enfocada en la privacidad.
+
+Desarrollado con C++ y WinAPI.
+==========================================================
