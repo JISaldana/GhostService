@@ -40,9 +40,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow) {
     nid.uID = 1;
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.uCallbackMessage = WM_TRAYICON;
-    nid.hIcon = LoadIcon(hInst, "MAINICON");
+    nid.hIcon = LoadIcon(hInst, "MAINICON"); 
     lstrcpy(nid.szTip, "Mover Mouse Activo");
     Shell_NotifyIcon(NIM_ADD, &nid);
+
+    SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED);
 
     double currentAngle = 0.0;
     MSG msg = { 0 };
@@ -53,9 +55,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmd, int nShow) {
             DispatchMessage(&msg);
         }
 
-        UpdateMouseLogic(currentAngle); // Function Call
+        UpdateMouseLogic(currentAngle); 
         Sleep(20);
     }
+
+    SetThreadExecutionState(ES_CONTINUOUS);
 
     Shell_NotifyIcon(NIM_DELETE, &nid);
     return 0;
