@@ -1,0 +1,24 @@
+# Ignore VS Code workspace settings
+.vscode/
+
+# Build outputs
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.o
+*.out
+*.log
+
+# Temporary files
+*.tmp
+*.cache
+*.~*
+
+# System files
+Thumbs.db
+desktop.ini
+.DS_Store
